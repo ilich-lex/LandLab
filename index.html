@@ -422,6 +422,131 @@
     @media (prefers-reduced-motion: reduce) {
       .rv, .rv-l, .rv-r { transition: none !important; opacity: 1 !important; transform: none !important; }
     }
+
+    /* ── Scroll-margin for fixed header ── */
+    #work, #services, #pricing, #process, #about, #contact {
+      scroll-margin-top: 72px;
+    }
+
+    /* ── Hero desktop centering ── */
+    .hero-wrap {
+      max-width: 860px;
+    }
+    @media (min-width: 1024px) {
+      .hero-wrap {
+        margin: 0 auto;
+      }
+    }
+
+    /* ── Process two-column grid ── */
+    .proc-grid {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      gap: 0 72px;
+      align-items: start;
+    }
+    .proc-grid-head { position: sticky; top: 88px; }
+    .proc-steps-col { display: flex; flex-direction: column; }
+
+    @media (max-width: 860px) {
+      .proc-grid {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+      .proc-grid-head {
+        position: static;
+        margin-bottom: 32px;
+      }
+    }
+
+    /* ── Mobile floating burger ── */
+    #mob-fab {
+      display: none;
+    }
+    @media (max-width: 767px) {
+      #mob-fab {
+        display: flex;
+        position: fixed;
+        top: 14px;
+        right: 16px;
+        z-index: 200;
+        align-items: center;
+        gap: 7px;
+        padding: 8px 14px;
+        border-radius: 9999px;
+        background: rgba(250,249,247,0.95);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid var(--border);
+        box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        cursor: pointer;
+        font-family: 'Inter', sans-serif;
+        font-size: 0.78rem;
+        font-weight: 600;
+        color: var(--ink);
+        transition: box-shadow 0.2s, background 0.2s;
+      }
+      #mob-fab:hover { box-shadow: 0 4px 18px rgba(0,0,0,0.12); }
+      #mob-fab.open {
+        background: var(--ink);
+        color: #fff;
+        border-color: var(--ink);
+      }
+      #mob-fab.open svg { stroke: #fff; }
+
+      /* Mobile fullscreen menu overlay */
+      #mob-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 190;
+        background: rgba(250,249,247,0.98);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        padding: 40px 32px;
+        gap: 0;
+      }
+      #mob-overlay.open { display: flex; }
+
+      .mob-ov-lnk {
+        display: block;
+        font-size: 1.6rem;
+        font-weight: 600;
+        color: var(--ink);
+        text-decoration: none;
+        padding: 18px 0;
+        border-bottom: 1px solid var(--border);
+        width: 100%;
+        font-family: 'Playfair Display', serif;
+        letter-spacing: -0.02em;
+        transition: color 0.15s;
+      }
+      .mob-ov-lnk:first-child { border-top: 1px solid var(--border); }
+      .mob-ov-lnk:hover { color: var(--green); }
+
+      .mob-ov-cta {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 32px;
+        font-family: 'Inter', sans-serif;
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: #fff;
+        background: var(--green);
+        padding: 14px 24px;
+        border-radius: 6px;
+        text-decoration: none;
+        transition: background 0.2s;
+      }
+      .mob-ov-cta:hover { background: var(--green-hover); }
+
+      /* Hide original header on mobile */
+      #hdr { display: none; }
+    }
   </style>
 </head>
 <body>
@@ -466,44 +591,65 @@
   </nav>
 </header>
 
+<!-- ════ MOBILE FLOATING MENU ════ -->
+<!-- FAB button (visible only on mobile) -->
+<button id="mob-fab" aria-label="Меню" aria-expanded="false">
+  <svg id="fab-open" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+  <svg id="fab-close" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" style="display:none;"><path d="M18 6L6 18M6 6l12 12"/></svg>
+  <span id="fab-label">Меню</span>
+</button>
 
-<!-- ════════════════ HERO ════════════════ -->
+<!-- Fullscreen overlay nav -->
+<div id="mob-overlay" role="dialog" aria-label="Навигация" aria-modal="true">
+  <a href="#work"     class="mob-ov-lnk" id="mov-work">Работы</a>
+  <a href="#services" class="mob-ov-lnk" id="mov-services">Услуги</a>
+  <a href="#pricing"  class="mob-ov-lnk" id="mov-pricing">Цены</a>
+  <a href="#process"  class="mob-ov-lnk" id="mov-process">Процесс</a>
+  <a href="#contact"  class="mob-ov-cta" id="mov-contact">
+    Обсудить проект
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+  </a>
+</div>
+
+
 <section style="padding:90px 0 80px;">
   <div class="wrap">
+    <div class="hero-wrap">
 
-    <!-- Label -->
-    <div class="rv" style="display:flex;align-items:center;gap:10px;margin-bottom:30px;">
-      <span style="width:22px;height:1px;background:var(--green);display:inline-block;"></span>
-      <span style="font-size:0.72rem;font-weight:600;color:var(--green);letter-spacing:0.1em;text-transform:uppercase;">Digital Development Studio</span>
+      <!-- Label -->
+      <div class="rv" style="display:flex;align-items:center;gap:10px;margin-bottom:30px;">
+        <span style="width:22px;height:1px;background:var(--green);display:inline-block;"></span>
+        <span style="font-size:0.72rem;font-weight:600;color:var(--green);letter-spacing:0.1em;text-transform:uppercase;">Digital Development Studio</span>
+      </div>
+
+      <!-- Heading -->
+      <h1 class="rv d1 serif" style="font-size:clamp(2.4rem,5.6vw,4.6rem);font-weight:600;line-height:1.08;letter-spacing:-0.025em;color:var(--ink);margin-bottom:28px;">
+        Сайты и цифровые<br/>продукты для&nbsp;бизнеса
+      </h1>
+
+      <!-- Sub -->
+      <p class="rv d2" style="font-size:clamp(0.95rem,1.6vw,1.1rem);color:var(--mid);line-height:1.75;max-width:520px;margin-bottom:44px;">
+        Проектирую и разрабатываю лендинги, сайты и автоматизацию под конкретную задачу&nbsp;— от структуры и дизайна до публикации.
+      </p>
+
+      <!-- CTA -->
+      <div class="rv d3" style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:56px;">
+        <a href="#contact" class="btn btn-g">
+          Обсудить проект
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <a href="#work" class="btn btn-o">Посмотреть работы</a>
+      </div>
+
+      <!-- Trust -->
+      <div class="rv d4" style="display:flex;flex-wrap:wrap;gap:8px;">
+        <span class="pill"><span class="pill-dot"></span>Реальные коммерческие проекты</span>
+        <span class="pill"><span class="pill-dot"></span>Работа по договору</span>
+        <span class="pill"><span class="pill-dot"></span>Официально как ИП</span>
+        <span class="pill"><span class="pill-dot"></span>Срок и стоимость — до старта</span>
+      </div>
+
     </div>
-
-    <!-- Heading -->
-    <h1 class="rv d1 serif" style="font-size:clamp(2.4rem,5.8vw,4.4rem);font-weight:600;line-height:1.1;letter-spacing:-0.025em;color:var(--ink);max-width:800px;margin-bottom:26px;">
-      Сайты и цифровые<br/>продукты для&nbsp;бизнеса
-    </h1>
-
-    <!-- Sub -->
-    <p class="rv d2" style="font-size:clamp(0.95rem,1.8vw,1.15rem);color:var(--mid);line-height:1.7;max-width:560px;margin-bottom:40px;">
-      Проектирую и разрабатываю лендинги, сайты и автоматизацию под конкретную задачу&nbsp;— от структуры и дизайна до публикации.
-    </p>
-
-    <!-- CTA -->
-    <div class="rv d3" style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:60px;">
-      <a href="#contact" class="btn btn-g">
-        Обсудить проект
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </a>
-      <a href="#work" class="btn btn-o">Посмотреть работы</a>
-    </div>
-
-    <!-- Trust -->
-    <div class="rv d4" style="display:flex;flex-wrap:wrap;gap:8px;">
-      <span class="pill"><span class="pill-dot"></span>Реальные коммерческие проекты</span>
-      <span class="pill"><span class="pill-dot"></span>Работа по договору</span>
-      <span class="pill"><span class="pill-dot"></span>Официально как ИП</span>
-      <span class="pill"><span class="pill-dot"></span>Срок и стоимость — до старта</span>
-    </div>
-
   </div>
 </section>
 
@@ -828,40 +974,47 @@
 <section id="process" style="background:var(--surface);padding:90px 0 100px;">
   <div class="wrap">
 
-    <div class="rv" style="margin-bottom:52px;">
-      <span class="sec-label">05 — Процесс</span>
-      <h2 class="sec-h">Как проходит работа</h2>
-    </div>
+    <div class="proc-grid">
 
-    <div style="max-width:660px;">
-      <div class="proc-step rv">
-        <div class="proc-num">01</div>
-        <div>
-          <p class="proc-title">Задача и бриф</p>
-          <p class="proc-desc">Разбираю задачу, аудиторию, цели. Фиксируем объём работ и стоимость до старта.</p>
+      <!-- Left: heading (sticky on desktop) -->
+      <div class="proc-grid-head rv">
+        <span class="sec-label">05 — Процесс</span>
+        <h2 class="sec-h" style="margin-bottom:20px;">Как<br/>проходит<br/>работа</h2>
+        <a href="#contact" class="btn btn-g" style="font-size:0.85rem;padding:10px 20px;">Обсудить проект</a>
+      </div>
+
+      <!-- Right: steps -->
+      <div class="proc-steps-col">
+        <div class="proc-step rv">
+          <div class="proc-num">01</div>
+          <div>
+            <p class="proc-title">Задача и бриф</p>
+            <p class="proc-desc">Разбираю задачу, аудиторию, цели. Фиксируем объём работ и стоимость до старта.</p>
+          </div>
+        </div>
+        <div class="proc-step rv d1">
+          <div class="proc-num">02</div>
+          <div>
+            <p class="proc-title">Структура и концепция</p>
+            <p class="proc-desc">Готовлю структуру страниц и визуальную концепцию. Согласовываем перед разработкой.</p>
+          </div>
+        </div>
+        <div class="proc-step rv d2">
+          <div class="proc-num">03</div>
+          <div>
+            <p class="proc-title">Разработка</p>
+            <p class="proc-desc">Верстаю и собираю сайт с адаптивной версией. Промежуточный показ и правки в рамках согласованного объёма.</p>
+          </div>
+        </div>
+        <div class="proc-step rv d3">
+          <div class="proc-num">04</div>
+          <div>
+            <p class="proc-title">Запуск</p>
+            <p class="proc-desc">Публикация, подключение домена, передача доступов. Техническая база для корректной индексации — в порядке.</p>
+          </div>
         </div>
       </div>
-      <div class="proc-step rv d1">
-        <div class="proc-num">02</div>
-        <div>
-          <p class="proc-title">Структура и концепция</p>
-          <p class="proc-desc">Готовлю структуру страниц и визуальную концепцию. Согласовываем перед разработкой.</p>
-        </div>
-      </div>
-      <div class="proc-step rv d2">
-        <div class="proc-num">03</div>
-        <div>
-          <p class="proc-title">Разработка</p>
-          <p class="proc-desc">Верстаю и собираю сайт с адаптивной версией. Промежуточный показ и правки в рамках согласованного объёма.</p>
-        </div>
-      </div>
-      <div class="proc-step rv d3">
-        <div class="proc-num">04</div>
-        <div>
-          <p class="proc-title">Запуск</p>
-          <p class="proc-desc">Публикация, подключение домена, передача доступов. Техническая база для корректной индексации — в порядке.</p>
-        </div>
-      </div>
+
     </div>
 
   </div>
@@ -1052,69 +1205,115 @@
 
 
 <script>
-  /* ── Burger ── */
-  const brg       = document.getElementById('brg');
-  const mobNav    = document.getElementById('mob-nav');
-  const brgOpen   = document.getElementById('brg-open');
-  const brgClose  = document.getElementById('brg-close');
-  const deskNav   = document.getElementById('desk-nav');
-
   function isMobile() { return window.innerWidth < 768; }
+
+  /* ── Desktop header: show/hide elements ── */
+  const brg     = document.getElementById('brg');
+  const mobNav  = document.getElementById('mob-nav');
+  const brgOpen = document.getElementById('brg-open');
+  const brgClose= document.getElementById('brg-close');
+  const deskNav = document.getElementById('desk-nav');
 
   function setNavMode() {
     if (isMobile()) {
-      brg.style.display   = 'block';
-      deskNav.style.display = 'none';
+      if (brg) brg.style.display = 'none';     /* hidden by CSS anyway */
+      if (deskNav) deskNav.style.display = 'none';
     } else {
-      brg.style.display   = 'none';
-      deskNav.style.display = 'flex';
-      mobNav.classList.remove('open');
-      brgOpen.style.display  = 'block';
-      brgClose.style.display = 'none';
+      if (brg) brg.style.display = 'none';
+      if (deskNav) deskNav.style.display = 'flex';
+      if (mobNav) mobNav.classList.remove('open');
     }
   }
   setNavMode();
-  window.addEventListener('resize', setNavMode);
-
-  brg.addEventListener('click', () => {
-    const open = mobNav.classList.toggle('open');
-    brgOpen.style.display  = open ? 'none'  : 'block';
-    brgClose.style.display = open ? 'block' : 'none';
+  window.addEventListener('resize', function() {
+    setNavMode();
+    if (!isMobile()) closeMobOverlay();
   });
 
-  document.querySelectorAll('.mob-lnk').forEach(l => {
-    l.addEventListener('click', () => {
-      mobNav.classList.remove('open');
-      brgOpen.style.display  = 'block';
-      brgClose.style.display = 'none';
+  /* Desktop burger (legacy — not used on mobile now, keep for safety) */
+  if (brg) {
+    brg.addEventListener('click', function() {
+      const open = mobNav.classList.toggle('open');
+      brgOpen.style.display  = open ? 'none'  : 'block';
+      brgClose.style.display = open ? 'block' : 'none';
     });
+  }
+
+  /* ── Mobile FAB + Overlay ── */
+  const fab        = document.getElementById('mob-fab');
+  const overlay    = document.getElementById('mob-overlay');
+  const fabOpen    = document.getElementById('fab-open');
+  const fabClose   = document.getElementById('fab-close');
+  const fabLabel   = document.getElementById('fab-label');
+
+  function openMobOverlay() {
+    overlay.classList.add('open');
+    fab.classList.add('open');
+    fab.setAttribute('aria-expanded', 'true');
+    fabOpen.style.display  = 'none';
+    fabClose.style.display = 'inline';
+    fabLabel.textContent   = 'Закрыть';
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeMobOverlay() {
+    overlay.classList.remove('open');
+    if (fab) {
+      fab.classList.remove('open');
+      fab.setAttribute('aria-expanded', 'false');
+    }
+    if (fabOpen)  fabOpen.style.display  = 'inline';
+    if (fabClose) fabClose.style.display = 'none';
+    if (fabLabel) fabLabel.textContent   = 'Меню';
+    document.body.style.overflow = '';
+  }
+
+  if (fab) {
+    fab.addEventListener('click', function() {
+      if (overlay.classList.contains('open')) {
+        closeMobOverlay();
+      } else {
+        openMobOverlay();
+      }
+    });
+  }
+
+  /* Close overlay on link click */
+  document.querySelectorAll('.mob-ov-lnk, .mob-ov-cta').forEach(function(l) {
+    l.addEventListener('click', closeMobOverlay);
   });
 
-  /* ── Sticky header shadow ── */
+  /* Close on Escape */
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeMobOverlay();
+  });
+
+  /* ── Sticky header shadow (desktop only) ── */
   const hdr = document.getElementById('hdr');
-  window.addEventListener('scroll', () => {
-    hdr.style.boxShadow = window.scrollY > 16
-      ? '0 1px 20px rgba(0,0,0,0.05)'
-      : 'none';
-  }, { passive: true });
+  if (hdr) {
+    window.addEventListener('scroll', function() {
+      hdr.style.boxShadow = window.scrollY > 16
+        ? '0 1px 20px rgba(0,0,0,0.05)'
+        : 'none';
+    }, { passive: true });
+  }
 
   /* ── Scroll reveal ── */
   const rvEls = document.querySelectorAll('.rv, .rv-l, .rv-r');
-  const rvObs = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
+  const rvObs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
       if (e.isIntersecting) {
         e.target.classList.add('on');
         rvObs.unobserve(e.target);
       }
     });
   }, { threshold: 0.08, rootMargin: '0px 0px -32px 0px' });
-  rvEls.forEach(el => rvObs.observe(el));
+  rvEls.forEach(function(el) { rvObs.observe(el); });
 
-  /* ── Responsive grids (inline-style grids) ── */
+  /* ── Responsive grids (inline-style) ── */
   function applyGrids() {
     const mob = isMobile();
 
-    /* Portfolio articles: 2-col on desktop, 1-col on mobile */
     ['proj-1','proj-2','proj-3','proj-4'].forEach(function(id) {
       const el = document.getElementById(id);
       if (!el) return;
@@ -1122,14 +1321,12 @@
       el.style.gap = mob ? '28px' : '72px';
     });
 
-    /* Pricing grid */
     const pg = document.getElementById('pricing-grid');
     if (pg) {
       pg.style.gridTemplateColumns = mob ? '1fr' : '1fr 1fr';
       pg.style.gap = mob ? '36px' : '80px';
     }
 
-    /* Footer grid */
     const fg = document.getElementById('footer-grid');
     if (fg) {
       fg.style.gridTemplateColumns = mob ? '1fr' : '1.4fr 1fr 1fr';
@@ -1139,6 +1336,8 @@
   applyGrids();
   window.addEventListener('resize', applyGrids);
 </script>
+
+
 
 </body>
 </html>
