@@ -428,14 +428,10 @@
       scroll-margin-top: 72px;
     }
 
-    /* ── Hero desktop centering ── */
+    /* ── Hero wrap: left-aligned, unconstrained on desktop ── */
     .hero-wrap {
-      max-width: 860px;
-    }
-    @media (min-width: 1024px) {
-      .hero-wrap {
-        margin: 0 auto;
-      }
+      /* No centering — content stays flush left within the grid */
+      max-width: 720px;
     }
 
     /* ── Process two-column grid ── */
@@ -546,13 +542,36 @@
 
       /* Hide original header on mobile */
       #hdr { display: none; }
+
+      /* Ensure overlay and old mob-nav are also off on mobile unless opened */
+      #mob-nav { display: none !important; }
+    }
+
+    /* ── Desktop: hide mobile-only elements ── */
+    @media (min-width: 768px) {
+      #mob-fab    { display: none !important; }
+      #mob-overlay { display: none !important; }
+      #mob-nav    { display: none !important; }
+    }
+
+    /* ── Desktop header: fixed positioning ── */
+    @media (min-width: 768px) {
+      #hdr {
+        position: fixed !important;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+      }
+      /* Push body content below fixed header */
+      body { padding-top: 62px; }
     }
   </style>
 </head>
 <body>
 
 <!-- ════════════════ HEADER ════════════════ -->
-<header id="hdr" style="position:sticky;top:0;z-index:50;background:rgba(250,249,247,0.93);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--border);transition:box-shadow 0.3s;">
+<header id="hdr" style="width:100%;background:rgba(250,249,247,0.93);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--border);transition:box-shadow 0.3s;">
   <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;height:62px;">
 
     <!-- Logo -->
