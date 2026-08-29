@@ -710,30 +710,106 @@
   applyGrids();
   window.addEventListener('resize', applyGrids);
 
-  var form      = document.getElementById('contact-form');
+  var form       = document.getElementById('contact-form');
   var formFields = document.getElementById('form-fields');
-  var formSucc  = document.getElementById('form-success');
-  var submitBtn = document.getElementById('cf-submit');
+  var formSucc   = document.getElementById('form-success');
+  var submitBtn  = document.getElementById('cf-submit');
+  var submitting = false;
+
+  /* Safely escape user input for Telegram HTML parse_mode */
+  function tgEscape(str) {
+    if (!str) return '';
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
+  }
+
+  /* Build a line only if value is non-empty after trim */
+  function tgLine(emoji, label, value) {
+    var v = (value || '').trim();
+    if (!v) return '';
+    return emoji + ' <b>' + label + ':</b> ' + tgEscape(v) + '\n';
+  }
+
+  /* Build multi-line field (e.g. task description) */
+  function tgBlock(emoji, label, value) {
+    var v = (value || '').trim();
+    if (!v) return '';
+    return emoji + ' <b>' + label + ':</b>\n' + tgEscape(v) + '\n';
+  }
+
   if (form) {
     form.addEventListener('submit', function(e) {
       e.preventDefault();
-      submitBtn.textContent = 'Отправляю...';
+      if (submitting) return;
+
+      /* --- Frontend validation --- */
+      var nameVal    = (document.getElementById('cf-name').value    || '').trim();
+      var contactVal = (document.getElementById('cf-contact').value || '').trim();
+      var taskVal    = (document.getElementById('cf-task').value    || '').trim();
+      var bizVal     = (document.getElementById('cf-business').value|| '').trim();
+
+      if (!nameVal) {
+        document.getElementById('cf-name').focus();
+        document.getElementById('cf-name').style.borderColor = '#c0392b';
+        return;
+      }
+      if (!contactVal) {
+        document.getElementById('cf-contact').focus();
+        document.getElementById('cf-contact').style.borderColor = '#c0392b';
+        return;
+      }
+
+      /* Reset error borders */
+      ['cf-name','cf-contact','cf-task','cf-business'].forEach(function(id) {
+        var el = document.getElementById(id);
+        if (el) el.style.borderColor = '';
+      });
+
+      submitting = true;
+      submitBtn.textContent = 'Отправляю…';
       submitBtn.disabled = true;
-      var data = new FormData(form);
-      var body = {};
-      data.forEach(function(v,k) { body[k] = v; });
+
+      /* --- Build Telegram message (HTML parse_mode) --- */
+      var msg = '🔔 <b>Новая заявка — LandLab</b>\n\n';
+      msg += tgLine('👤', 'Имя',    nameVal);
+      msg += tgLine('🏢', 'Бизнес', bizVal);
+      msg += tgBlock('💬', 'Задача', taskVal);
+      msg += tgLine('📲', 'Контакт', contactVal);
+      msg += '\n🌐 land-lab.ru';
+
+      /* --- Payload --- */
+      var payload = {
+        name:              nameVal,
+        business:          bizVal,
+        task:              taskVal,
+        contact:           contactVal,
+        source:            'land-lab.ru',
+        telegram_message:  msg
+      };
+
       fetch('https://hook.us2.make.com/x7t3b733upr16eje6535tuxt8v2b8x3u', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
-      }).then(function() {
+        body: JSON.stringify(payload)
+      }).then(function(res) {
+        /* Accept any 2xx response as success */
+        if (!res.ok && res.status >= 500) throw new Error('server error');
         formFields.classList.add('hidden');
         formSucc.classList.add('show');
       }).catch(function() {
+        submitting = false;
         submitBtn.textContent = 'Разобрать задачу →';
         submitBtn.disabled = false;
         alert('Что-то пошло не так. Напишите напрямую: @ildanildarovich');
       });
+    });
+
+    /* Clear red border on input */
+    ['cf-name','cf-contact'].forEach(function(id) {
+      var el = document.getElementById(id);
+      if (el) el.addEventListener('input', function() { this.style.borderColor = ''; });
     });
   }
 </script>
