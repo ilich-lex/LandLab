@@ -150,11 +150,24 @@
       body { font-size:16px; }
       html,body { overflow-x:hidden; }
       .wrap { padding:0 20px; }
-      .product-grid { grid-template-columns:1fr; }
+      .product-grid { grid-template-columns:1fr; gap:14px; }
       .value-grid { grid-template-columns:1fr; }
       .proj-img { max-height:280px; object-fit:cover; object-position:top; }
+      /* Pricing cards — mobile */
+      .product-card { padding:24px 20px 26px; border-radius:10px; grid-column:auto !important; }
+      .pc-type { font-size:0.75rem; margin-bottom:8px; }
+      .pc-title { font-size:1.3rem; margin-bottom:8px; }
+      .pc-price { font-size:1.75rem; margin-bottom:12px; }
+      .pc-desc { font-size:0.95rem; line-height:1.65; margin-bottom:16px; }
+      .pc-features { padding-top:14px; }
+      .pc-feature { font-size:0.9rem; padding:8px 0; line-height:1.5; }
+      /* Reset 2-col features grid (Custom card) to single column on mobile */
+      .product-card .pc-features[style] { display:flex !important; flex-direction:column !important; gap:0 !important; }
+      /* Info banner below cards */
+      #solutions .rv[style*="margin-top:32px"] { flex-direction:column; align-items:flex-start; gap:12px; padding:18px 18px; }
+      #solutions .rv[style*="margin-top:32px"] a { width:100%; justify-content:center; }
     }
-    @media (max-width:640px) { .btn { font-size:1rem; padding:13px 22px; } .pc-price { font-size:1.7rem; } }
+    @media (max-width:640px) { .btn { font-size:1rem; padding:13px 22px; } .pc-price { font-size:1.65rem; } }
 
     #solutions,#work,#process,#about,#contact { scroll-margin-top:72px; }
 
@@ -249,7 +262,7 @@
       <div class="rv d4" style="display:flex;flex-wrap:wrap;gap:8px;">
         <span class="pill"><span class="pill-dot"></span>Официально как ИП</span>
         <span class="pill"><span class="pill-dot"></span>Оплата 50/50</span>
-        <span class="pill"><span class="pill-dot"></span>Scope фиксируется до старта</span>
+        <span class="pill"><span class="pill-dot"></span>Сроки и стоимость — до старта</span>
         <span class="pill"><span class="pill-dot"></span>Реальные опубликованные проекты</span>
       </div>
     </div>
@@ -346,11 +359,11 @@
           <li class="pc-feature">API, AI, интеграции</li>
         </ul>
       </div>
-      <div class="product-card" style="grid-column:span 2;">
+      <div class="product-card pc-custom" style="grid-column:span 2;">
         <p class="pc-type">05 — Custom Digital System</p>
         <p class="pc-title">Цифровая система под процесс бизнеса</p>
         <p class="pc-price"><span class="pc-price-from">от</span>60 000 ₽</p>
-        <p class="pc-desc" style="max-width:600px;">Когда задача выходит за рамки обычного сайта или бота. Dashboards, web-приложения, личные кабинеты, роли, сложные workflow, API, внутренние инструменты. Точная стоимость определяется после фиксации scope.</p>
+        <p class="pc-desc" style="max-width:600px;">Когда задача выходит за рамки обычного сайта или бота. Dashboards, web-приложения, личные кабинеты, роли, сложные workflow, API, внутренние инструменты. Точная стоимость обсуждается после согласования задачи и объёма.</p>
         <ul class="pc-features" style="display:grid;grid-template-columns:1fr 1fr;gap:0 24px;">
           <li class="pc-feature">Dashboards и web-приложения</li>
           <li class="pc-feature">Личные кабинеты и роли</li>
@@ -513,7 +526,7 @@
       </div>
       <div class="proc-steps-col">
         <div class="proc-step rv"><div class="proc-num">01</div><div><p class="proc-title">Разбираем задачу</p><p class="proc-desc">Понимаем текущий процесс, проблему и что должно измениться. Определяем, какой инструмент подходит.</p></div></div>
-        <div class="proc-step rv d1"><div class="proc-num">02</div><div><p class="proc-title">Фиксируем решение и scope</p><p class="proc-desc">Определяем структуру, функциональность, стоимость и границы проекта. Всё фиксируется до старта.</p></div></div>
+        <div class="proc-step rv d1"><div class="proc-num">02</div><div><p class="proc-title">Согласовываем задачу и условия</p><p class="proc-desc">Определяем структуру, функциональность, стоимость и сроки. Всё фиксируем до начала работы.</p></div></div>
         <div class="proc-step rv d2"><div class="proc-num">03</div><div><p class="proc-title">Предоплата 50%</p><p class="proc-desc">После фиксации условий проект ставится в работу.</p></div></div>
         <div class="proc-step rv d3"><div class="proc-num">04</div><div><p class="proc-title">Проектирование и разработка</p><p class="proc-desc">Собираю архитектуру, интерфейс и необходимую логику. Промежуточный показ по договорённости.</p></div></div>
         <div class="proc-step rv d4"><div class="proc-num">05</div><div><p class="proc-title">Проверка и правки</p><p class="proc-desc">Проект проходит внутреннюю проверку, затем получаю объединённый список правок в рамках согласованной концепции.</p></div></div>
