@@ -198,6 +198,7 @@
   </style>
   <link rel="stylesheet" href="pass1.css" />
   <link rel="stylesheet" href="pass2.css" />
+  <link rel="stylesheet" href="pass3.css" />
 </head>
 <body class="is-intro-active">
 
@@ -807,108 +808,128 @@
 </div>
 
 <!-- PROCESS -->
-<section id="process" style="background:var(--surface);padding:88px 0 96px;">
-  <div class="wrap">
-    <div class="proc-grid">
-      <div class="proc-grid-head rv">
-        <span class="sec-label">03 — Как работаю</span>
-        <h2 class="sec-h" style="margin-bottom:24px;">Как<br>проходит<br>работа</h2>
-        <a href="#contact" class="btn btn-g btn-sm">Разобрать задачу</a>
+<section class="ll-process" id="process" aria-labelledby="ll-process-title">
+  <div class="ll-process__surface">
+    <header class="ll-process__header">
+      <p class="ll-kicker"><span>04</span> Как проходит работа</p>
+      <p class="ll-process__intro">Понятный путь от первой задачи до запуска.</p>
+    </header>
+
+    <div class="ll-process__stage">
+      <div class="ll-process__counter" aria-hidden="true">
+        <span class="ll-process__counter-current">01</span><span>/ 06</span>
       </div>
-      <div class="proc-steps-col">
-        <div class="proc-step rv"><div class="proc-num">01</div><div><p class="proc-title">Разбираем задачу</p><p class="proc-desc">Понимаем текущий процесс, проблему и что должно измениться. Определяем, какой инструмент подходит.</p></div></div>
-        <div class="proc-step rv d1"><div class="proc-num">02</div><div><p class="proc-title">Согласовываем задачу и условия</p><p class="proc-desc">Определяем структуру, функциональность, стоимость и сроки. Всё фиксируем до начала работы.</p></div></div>
-        <div class="proc-step rv d2"><div class="proc-num">03</div><div><p class="proc-title">Предоплата 50%</p><p class="proc-desc">После фиксации условий проект ставится в работу.</p></div></div>
-        <div class="proc-step rv d3"><div class="proc-num">04</div><div><p class="proc-title">Проектирование и разработка</p><p class="proc-desc">Собираю архитектуру, интерфейс и необходимую логику. Промежуточный показ по договорённости.</p></div></div>
-        <div class="proc-step rv d4"><div class="proc-num">05</div><div><p class="proc-title">Проверка и правки</p><p class="proc-desc">Проект проходит внутреннюю проверку, затем получаю объединённый список правок в рамках согласованной концепции.</p></div></div>
-        <div class="proc-step rv d5"><div class="proc-num">06</div><div><p class="proc-title">Запуск</p><p class="proc-desc">Финальная проверка, публикация, подключение домена и передача проекта после окончательного расчёта.</p></div></div>
+      <h2 class="ll-visually-hidden" id="ll-process-title">Как проходит работа</h2>
+
+      <div class="ll-process__steps">
+        <article class="ll-process-step is-active">
+          <p class="ll-process-step__number">01</p>
+          <h3>Разбираем задачу</h3>
+          <p>Понимаем текущий процесс, проблему и что должно измениться. Определяем, какой инструмент подходит.</p>
+        </article>
+        <article class="ll-process-step">
+          <p class="ll-process-step__number">02</p>
+          <h3>Согласовываем задачу и условия</h3>
+          <p>Определяем структуру, функциональность, стоимость и сроки. Всё фиксируем до начала работы.</p>
+        </article>
+        <article class="ll-process-step">
+          <p class="ll-process-step__number">03</p>
+          <h3>Предоплата 50%</h3>
+          <p>После фиксации условий проект ставится в работу.</p>
+        </article>
+        <article class="ll-process-step">
+          <p class="ll-process-step__number">04</p>
+          <h3>Проектирование и разработка</h3>
+          <p>Собираю архитектуру, интерфейс и необходимую логику. Промежуточный показ — по договорённости.</p>
+        </article>
+        <article class="ll-process-step">
+          <p class="ll-process-step__number">05</p>
+          <h3>Проверка и правки</h3>
+          <p>Проверяю проект, затем вношу согласованный список правок в рамках выбранного решения.</p>
+        </article>
+        <article class="ll-process-step">
+          <p class="ll-process-step__number">06</p>
+          <h3>Запуск</h3>
+          <p>Финальная проверка, публикация, подключение домена и передача проекта после окончательного расчёта.</p>
+        </article>
       </div>
+    </div>
+
+    <div class="ll-process__rail" aria-hidden="true">
+      <div class="ll-process__rail-fill"></div>
+      <ol>
+        <li class="is-active">01</li><li>02</li><li>03</li><li>04</li><li>05</li><li>06</li>
+      </ol>
     </div>
   </div>
 </section>
-
-<hr class="thin" style="max-width:1160px;margin:0 auto;">
 
 <!-- ABOUT -->
-<section id="about" style="padding:88px 0 96px;">
-  <div class="wrap">
-    <div id="about-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;">
-      <div class="rv">
-        <span class="sec-label">04 — О LandLab</span>
-        <h2 class="sec-h" style="margin-bottom:22px;">Ильдан Тухватшин —<br>основатель LandLab</h2>
-        <p style="font-size:1rem;color:var(--mid);line-height:1.8;margin-bottom:16px;">Работаю с клиентами напрямую и лично отвечаю за постановку задачи, предлагаемое решение и результат проекта. LandLab занимается коммерческими сайтами, системами заявок, автоматизацией в Telegram и веб-инструментами для бизнеса.</p>
-        <p style="font-size:1rem;color:var(--mid);line-height:1.8;margin-bottom:28px;">Без лишней цепочки менеджеров между задачей бизнеса и разработкой.</p>
-        <a href="https://t.me/ildanildarovich" target="_blank" rel="noopener noreferrer" class="btn btn-o">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
-          Написать в Telegram
-        </a>
-      </div>
-      <div class="rv d2">
-        <span class="sec-label" style="margin-bottom:16px;display:block;">Как работаем</span>
-        <div class="about-principles">
-          <div class="about-principle"><span class="ap-num">01</span><p class="ap-text">Официально как ИП — договор и оплата на расчётный счёт</p></div>
-          <div class="about-principle"><span class="ap-num">02</span><p class="ap-text">Срок и стоимость фиксируются до начала работы</p></div>
-          <div class="about-principle"><span class="ap-num">03</span><p class="ap-text">Оплата 50% до старта, 50% по завершении</p></div>
-          <div class="about-principle"><span class="ap-num">04</span><p class="ap-text">Объём правок согласуется на берегу и фиксируется в договоре</p></div>
-          <div class="about-principle"><span class="ap-num">05</span><p class="ap-text">Прямой контакт — без менеджеров и посредников</p></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+<section class="ll-about" id="about" aria-labelledby="ll-about-title">
+  <div class="ll-about__word" aria-hidden="true">LandLab</div>
+  <div class="ll-about__inner">
+    <header class="ll-about__header ll-p3-reveal">
+      <p class="ll-kicker"><span>05</span> О LandLab</p>
+      <h2 id="ll-about-title">Ильдан Тухватшин —<br>основатель LandLab</h2>
+    </header>
 
-<!-- OFFICIAL -->
-<section style="background:var(--surface);padding:72px 0;">
-  <div class="wrap">
-    <div id="official-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;">
-      <div class="rv">
-        <span class="sec-label">Официально</span>
-        <h2 class="sec-h" style="margin-bottom:16px;">Работа официально</h2>
-        <p style="font-size:1rem;color:var(--mid);line-height:1.7;">Если вам важна формальная сторона — работаем по договору, оплата на счёт ИП.</p>
-      </div>
-      <div class="rv d2">
-        <div class="off-item"><div class="off-check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg></div><div><p class="off-text" style="font-weight:500;">ИП Тухватшин Ильдан Ильдарович</p><p class="off-sub">ИНН 026912318404</p></div></div>
-        <div class="off-item"><div class="off-check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg></div><p class="off-text">Договор — по согласованию</p></div>
-        <div class="off-item"><div class="off-check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg></div><p class="off-text">Оплата на расчётный счёт</p></div>
-        <div class="off-item"><div class="off-check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg></div><p class="off-text">50% предоплата, 50% по завершении</p></div>
-        <div class="off-item" style="border-bottom:none;"><div class="off-check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg></div><p class="off-text">Стоимость и объём фиксируются до старта</p></div>
-      </div>
+    <div class="ll-about__story ll-p3-reveal">
+      <p>Работаю с клиентами напрямую и лично отвечаю за постановку задачи, предлагаемое решение и результат проекта.</p>
+      <p>LandLab делает коммерческие сайты, системы заявок, автоматизацию в Telegram и веб-инструменты для бизнеса.</p>
+      <a class="ll-text-link" href="https://t.me/ildanildarovich" target="_blank" rel="noopener noreferrer">Написать в Telegram <span aria-hidden="true">↗</span></a>
     </div>
+
+    <div class="ll-about__facts">
+      <article class="ll-about-fact ll-p3-reveal"><span>01</span><p>Работа напрямую — без цепочки менеджеров и посредников.</p></article>
+      <article class="ll-about-fact ll-p3-reveal"><span>02</span><p>Стоимость, срок и объём работ фиксируем до старта.</p></article>
+      <article class="ll-about-fact ll-p3-reveal"><span>03</span><p>Оплата: 50% до начала работы, 50% после завершения.</p></article>
+      <article class="ll-about-fact ll-p3-reveal"><span>04</span><p>Официальная работа через ИП, оплата на расчётный счёт.</p></article>
+    </div>
+
+    <aside class="ll-about__official ll-p3-reveal" aria-label="Реквизиты">
+      <p>Официально</p>
+      <strong>ИП Тухватшин Ильдан Ильдарович</strong>
+      <span>ИНН 026912318404</span>
+    </aside>
   </div>
 </section>
 
 <!-- CONTACT -->
-<section id="contact" style="padding:100px 0 110px;">
-  <div class="wrap">
-    <div id="contact-layout" style="display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;">
-      <div class="rv">
-        <span class="sec-label">05 — Контакт</span>
-        <h2 class="serif" style="font-size:clamp(2rem,4vw,3rem);font-weight:600;line-height:1.1;letter-spacing:-0.025em;color:var(--ink);margin-bottom:20px;">Сначала разберём задачу</h2>
-        <p style="font-size:1.05rem;color:var(--mid);line-height:1.75;margin-bottom:24px;">Расскажите коротко, чем занимается бизнес и что хочется улучшить. Предложу подходящий формат — от простой коммерческой страницы до автоматизации.</p>
-        <p style="font-size:0.95rem;color:var(--muted);line-height:1.65;margin-bottom:28px;">Если обычный сайт здесь не лучший вариант — так и скажу.</p>
-        <div style="display:flex;flex-direction:column;gap:10px;">
-          <a href="https://t.me/ildanildarovich" target="_blank" rel="noopener noreferrer" style="font-size:1rem;color:var(--green);text-decoration:none;font-weight:500;display:flex;align-items:center;gap:7px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>@ildanildarovich</a>
-          <a href="mailto:itukhvatshin@internet.ru" style="font-size:1rem;color:var(--mid);text-decoration:none;display:flex;align-items:center;gap:7px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>itukhvatshin@internet.ru</a>
+<section class="ll-contact" id="contact" aria-labelledby="ll-contact-title">
+  <div class="ll-contact__surface">
+    <header class="ll-contact__header ll-p3-reveal">
+      <p class="ll-kicker"><span>06</span> Контакт</p>
+      <h2 id="ll-contact-title"><span>Есть задача?</span><br>Давайте обсудим.</h2>
+    </header>
+
+    <div class="ll-contact__layout" id="contact-layout">
+      <div class="ll-contact__intro ll-p3-reveal">
+        <p>Коротко расскажите, чем занимается бизнес и что нужно сделать. Предложу подходящий формат работы.</p>
+        <p>Если обычный сайт здесь не лучший вариант — так и скажу.</p>
+        <div class="ll-contact__links">
+          <a href="https://t.me/ildanildarovich" target="_blank" rel="noopener noreferrer">Telegram: @ildanildarovich <span aria-hidden="true">↗</span></a>
+          <a href="mailto:itukhvatshin@internet.ru">itukhvatshin@internet.ru <span aria-hidden="true">↗</span></a>
         </div>
-        <p style="font-size:0.88rem;color:var(--faint);margin-top:24px;">Работа официально через ИП · обычно 50/50</p>
+        <p class="ll-contact__legal">Работа официально через ИП · оплата 50/50</p>
       </div>
-      <div class="rv d2">
+
+      <div class="ll-contact__form ll-p3-reveal">
         <div id="form-fields">
           <form id="contact-form" novalidate>
             <div class="form-field"><label class="form-label" for="cf-name">Имя</label><input class="form-input" type="text" id="cf-name" name="name" placeholder="Как вас зовут?" autocomplete="name" required/></div>
             <div class="form-field"><label class="form-label" for="cf-business">Чем занимаетесь?</label><input class="form-input" type="text" id="cf-business" name="business" placeholder="Сфера, компания или проект"/></div>
             <div class="form-field"><label class="form-label" for="cf-task">Что хотите улучшить или сделать?</label><textarea class="form-textarea" id="cf-task" name="task" placeholder="Расскажите кратко — что сейчас есть и что хотите получить" required></textarea></div>
             <div class="form-field"><label class="form-label" for="cf-contact">Как с вами связаться?</label><input class="form-input" type="text" id="cf-contact" name="contact" placeholder="Telegram, email или телефон" required/></div>
-            <button type="submit" class="btn btn-g" id="cf-submit" style="width:100%;justify-content:center;font-size:1rem;padding:15px 28px;">Разобрать задачу →</button>
-            <p style="font-size:0.88rem;color:var(--faint);margin-top:14px;text-align:center;">Обычно отвечаю в течение рабочего дня</p>
+            <button type="submit" class="ll-contact__submit" id="cf-submit">Обсудить задачу <span aria-hidden="true">↗</span></button>
+            <p class="ll-contact__note">Обычно отвечаю в течение рабочего дня</p>
           </form>
         </div>
         <div id="form-success">
           <div style="width:52px;height:52px;border-radius:50%;background:var(--green-pale);border:2px solid var(--green-border);display:flex;align-items:center;justify-content:center;margin:0 auto 18px;">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg>
           </div>
-          <p style="font-size:1.15rem;font-weight:600;color:var(--ink);margin-bottom:10px;">Заявка отправлена</p>
-          <p style="font-size:1rem;color:var(--mid);line-height:1.7;">Отвечу в течение рабочего дня. Если нужно быстрее — пишите в <a href="https://t.me/ildanildarovich" target="_blank" rel="noopener" style="color:var(--green);">Telegram</a>.</p>
+          <p class="ll-contact__success-title">Заявка отправлена</p>
+          <p>Отвечу в течение рабочего дня. Если нужно быстрее — пишите в <a href="https://t.me/ildanildarovich" target="_blank" rel="noopener">Telegram</a>.</p>
         </div>
       </div>
     </div>
@@ -918,39 +939,34 @@
 </main>
 
 <!-- FOOTER -->
-<footer style="border-top:1px solid var(--border);padding:48px 0 36px;">
-  <div class="wrap">
-    <div id="footer-grid" style="display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:40px;margin-bottom:36px;align-items:start;">
-      <div>
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
-          <div style="width:28px;height:28px;background:var(--green);border-radius:5px;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M3 7h18M3 12h18M3 17h11"/></svg></div>
-          <span style="font-weight:700;font-size:0.95rem;color:var(--ink);">Land<span style="color:var(--green);">Lab</span></span>
-        </div>
-        <p style="font-size:0.9rem;color:var(--muted);line-height:1.65;max-width:210px;">Коммерческие сайты и веб-инструменты для бизнеса</p>
-      </div>
-      <nav style="display:flex;flex-direction:column;gap:10px;" aria-label="Навигация по сайту">
-        <a href="#solutions" style="font-size:0.9rem;color:var(--mid);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#1a1a1a'" onmouseout="this.style.color='#5a5a5a'">Решения</a>
-        <a href="#work" style="font-size:0.9rem;color:var(--mid);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#1a1a1a'" onmouseout="this.style.color='#5a5a5a'">Проекты</a>
-        <a href="#process" style="font-size:0.9rem;color:var(--mid);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#1a1a1a'" onmouseout="this.style.color='#5a5a5a'">Как работаю</a>
-        <a href="#about" style="font-size:0.9rem;color:var(--mid);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#1a1a1a'" onmouseout="this.style.color='#5a5a5a'">О LandLab</a>
-        <a href="#contact" style="font-size:0.9rem;color:var(--mid);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#1a1a1a'" onmouseout="this.style.color='#5a5a5a'">Контакт</a>
-      </nav>
-      <div>
-        <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px;">
-          <a href="https://t.me/ildanildarovich" target="_blank" rel="noopener noreferrer" style="font-size:0.9rem;color:var(--green);text-decoration:none;font-weight:500;">Telegram: @ildanildarovich</a>
-          <a href="mailto:itukhvatshin@internet.ru" style="font-size:0.9rem;color:var(--mid);text-decoration:none;">itukhvatshin@internet.ru</a>
-        </div>
-        <p style="font-size:0.85rem;color:var(--faint);line-height:1.65;">ИП Тухватшин Ильдан Ильдарович<br>ИНН 026912318404</p>
-      </div>
+<footer class="ll-footer">
+  <div class="ll-footer__top">
+    <a class="ll-footer__brand" href="#top" aria-label="LandLab — к началу страницы">LandLab</a>
+    <p>Сайты, автоматизация и веб-системы для бизнеса.</p>
+    <a class="ll-footer__up" href="#top">Наверх <span aria-hidden="true">↑</span></a>
+  </div>
+
+  <div class="ll-footer__grid" id="footer-grid">
+    <nav aria-label="Навигация по сайту">
+      <a href="#solutions">Услуги</a>
+      <a href="#work">Работы</a>
+      <a href="#process">Как проходит работа</a>
+      <a href="#about">О LandLab</a>
+      <a href="#contact">Контакты</a>
+    </nav>
+    <div class="ll-footer__contacts">
+      <a href="https://t.me/ildanildarovich" target="_blank" rel="noopener noreferrer">Telegram: @ildanildarovich</a>
+      <a href="mailto:itukhvatshin@internet.ru">itukhvatshin@internet.ru</a>
     </div>
-    <hr class="thin" style="margin-bottom:20px;">
-    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
-      <p style="font-size:0.85rem;color:var(--faint);">© 2026 LandLab</p>
-      <div style="display:flex;align-items:center;gap:7px;">
-        <span style="width:6px;height:6px;border-radius:50%;background:var(--green);display:inline-block;" aria-hidden="true"></span>
-        <span style="font-size:0.85rem;color:var(--muted);">Принимаю новые проекты</span>
-      </div>
+    <div class="ll-footer__official">
+      <p>ИП Тухватшин Ильдан Ильдарович</p>
+      <p>ИНН 026912318404</p>
     </div>
+  </div>
+
+  <div class="ll-footer__bottom">
+    <p>© 2026 LandLab</p>
+    <p><span aria-hidden="true"></span> Принимаю новые проекты</p>
   </div>
 </footer>
 
@@ -1008,10 +1024,6 @@
     if (ag) { ag.style.gridTemplateColumns = mob ? '1fr' : '1fr 1fr'; ag.style.gap = mob ? '40px' : '80px'; }
     var og = document.getElementById('official-grid');
     if (og) { og.style.gridTemplateColumns = mob ? '1fr' : '1fr 1fr'; og.style.gap = mob ? '40px' : '80px'; }
-    var cl = document.getElementById('contact-layout');
-    if (cl) { cl.style.gridTemplateColumns = mob ? '1fr' : '1fr 1fr'; cl.style.gap = mob ? '48px' : '80px'; }
-    var fg = document.getElementById('footer-grid');
-    if (fg) { fg.style.gridTemplateColumns = mob ? '1fr' : '1.4fr 1fr 1fr'; fg.style.gap = mob ? '28px' : '40px'; }
   }
   applyGrids();
   window.addEventListener('resize', applyGrids);
@@ -1106,7 +1118,7 @@
         formSucc.classList.add('show');
       }).catch(function() {
         submitting = false;
-        submitBtn.textContent = 'Разобрать задачу →';
+        submitBtn.innerHTML = 'Обсудить задачу <span aria-hidden="true">↗</span>';
         submitBtn.disabled = false;
         alert('Что-то пошло не так. Напишите напрямую: @ildanildarovich');
       });
@@ -1122,6 +1134,7 @@
 
 <script src="pass1.js"></script>
 <script src="pass2.js"></script>
+<script src="pass3.js"></script>
 
 </body>
 </html>
