@@ -199,6 +199,7 @@
   <link rel="stylesheet" href="pass1.css" />
   <link rel="stylesheet" href="pass2.css" />
   <link rel="stylesheet" href="pass3.css" />
+  <link rel="stylesheet" href="pass4a.css" />
 </head>
 <body class="is-intro-active">
 
@@ -899,7 +900,11 @@
   <div class="ll-contact__surface">
     <header class="ll-contact__header ll-p3-reveal">
       <p class="ll-kicker"><span>06</span> Контакт</p>
-      <h2 id="ll-contact-title"><span>Есть задача?</span><br>Давайте обсудим.</h2>
+      <h2 id="ll-contact-title">
+        <span class="ll-contact__headline-line ll-contact__headline-line--accent"><span>Есть задача?</span></span>
+          <span class="ll-contact__headline-line"><span>Давайте</span></span>
+          <span class="ll-contact__headline-line"><span>обсудим.</span></span>
+      </h2>
     </header>
 
     <div class="ll-contact__layout" id="contact-layout">
@@ -914,6 +919,10 @@
       </div>
 
       <div class="ll-contact__form ll-p3-reveal">
+        <div class="ll-contact__form-head">
+          <p>Заявка на проект</p>
+          <span>Ответ в течение рабочего дня</span>
+        </div>
         <div id="form-fields">
           <form id="contact-form" novalidate>
             <div class="form-field"><label class="form-label" for="cf-name">Имя</label><input class="form-input" type="text" id="cf-name" name="name" placeholder="Как вас зовут?" autocomplete="name" required/></div>
