@@ -6,36 +6,62 @@
   const processRailItems = Array.from(document.querySelectorAll('.ll-process__rail li'));
   const about = document.querySelector('.ll-about');
   const contact = document.querySelector('.ll-contact');
-  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const forceReducedMotion = new URLSearchParams(window.location.search).get('motion') === 'reduce';
-  const motionIsReduced = () => forceReducedMotion || reducedMotion.matches || root.dataset.motion === 'reduced';
-
-  let ticking = false;
+  const motion = window.LandLabMotion;
+  const motionIsReduced = () => motion.isReduced();
+  let metricsDirty = true;
+  let activeProcess = -1;
+  let reducedState = null;
+  let metrics = { process: null, processItems: [], about: null, contact: null };
 
   const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
 
-  function sectionProgress(element) {
-    if (!element) return 0;
+  function bounds(element) {
+    if (!element) return null;
     const rect = element.getBoundingClientRect();
-    const travel = Math.max(1, rect.height - window.innerHeight);
-    return clamp(-rect.top / travel);
+    return { top: rect.top + window.scrollY, height: element.offsetHeight };
+  }
+
+  function measure() {
+    metrics = {
+      process: bounds(processSection),
+      processItems: processItems.map(bounds),
+      about: bounds(about),
+      contact: bounds(contact)
+    };
+    metricsDirty = false;
+  }
+
+  function isNear(metric, frame, margin = 0.75) {
+    if (!metric) return false;
+    const buffer = frame.viewportHeight * margin;
+    return frame.scrollY + frame.viewportHeight + buffer >= metric.top && frame.scrollY - buffer <= metric.top + metric.height;
+  }
+
+  function sectionProgress(metric, frame) {
+    if (!metric) return 0;
+    const travel = Math.max(1, metric.height - frame.viewportHeight);
+    return clamp((frame.scrollY - metric.top) / travel);
   }
 
   function setActiveProcess(index) {
+    if (index === activeProcess) return;
+    activeProcess = index;
     processItems.forEach((item, itemIndex) => item.classList.toggle('is-active', itemIndex === index));
     processRailItems.forEach((item, itemIndex) => item.classList.toggle('is-active', itemIndex === index));
     if (processCounter) processCounter.textContent = String(index + 1).padStart(2, '0');
   }
 
-  function renderProcess() {
+  function renderProcess(frame) {
     if (!processSection || !processItems.length) return;
 
-    const desktop = window.innerWidth > 980 && !motionIsReduced();
+    const desktop = frame.viewportWidth > 980 && !frame.reduced;
     if (!desktop) {
       processSection.style.setProperty('--process-progress', '1');
-      processItems.forEach((item) => {
-        const rect = item.getBoundingClientRect();
-        const reveal = clamp((window.innerHeight - rect.top) / Math.max(window.innerHeight * 0.72, 1));
+      processItems.forEach((item, index) => {
+        const itemMetric = metrics.processItems[index];
+        const reveal = frame.reduced || !itemMetric
+          ? 1
+          : clamp((frame.scrollY + frame.viewportHeight - itemMetric.top) / Math.max(frame.viewportHeight * 0.62, 1));
         item.style.setProperty('--process-shift', '0%');
         item.style.setProperty('--process-opacity', '1');
         item.style.setProperty('--step-reveal', reveal.toFixed(4));
@@ -44,7 +70,7 @@
       return;
     }
 
-    const progress = sectionProgress(processSection);
+    const progress = sectionProgress(metrics.process, frame);
     const position = progress * (processItems.length - 1);
     const activeIndex = Math.min(processItems.length - 1, Math.max(0, Math.round(position)));
     processSection.style.setProperty('--process-progress', progress.toFixed(4));
@@ -58,25 +84,29 @@
     setActiveProcess(activeIndex);
   }
 
-  function renderSceneProgress() {
-    if (about) about.style.setProperty('--about-progress', sectionProgress(about).toFixed(4));
-    if (contact) {
-      const rect = contact.getBoundingClientRect();
-      const progress = clamp((window.innerHeight - rect.top) / Math.max(window.innerHeight + rect.height, 1));
+  function renderSceneProgress(frame) {
+    if (about && isNear(metrics.about, frame)) {
+      const progress = frame.reduced ? 0.5 : sectionProgress(metrics.about, frame);
+      about.style.setProperty('--about-progress', progress.toFixed(4));
+    }
+    if (contact && isNear(metrics.contact, frame)) {
+      const progress = frame.reduced
+        ? 0.5
+        : clamp((frame.scrollY + frame.viewportHeight - metrics.contact.top) / Math.max(frame.viewportHeight + metrics.contact.height, 1));
       contact.style.setProperty('--contact-progress', progress.toFixed(4));
     }
   }
 
-  function render() {
-    ticking = false;
-    renderProcess();
-    renderSceneProgress();
-  }
+  function render(frame) {
+    if (frame.measure || metricsDirty) measure();
 
-  function requestRender() {
-    if (ticking) return;
-    ticking = true;
-    requestAnimationFrame(render);
+    if (frame.reduced !== reducedState) {
+      reducedState = frame.reduced;
+      if (frame.reduced) document.querySelectorAll('.ll-p3-reveal').forEach((element) => element.classList.add('is-visible'));
+    }
+
+    if (isNear(metrics.process, frame)) renderProcess(frame);
+    renderSceneProgress(frame);
   }
 
   const revealObserver = 'IntersectionObserver' in window
@@ -95,13 +125,15 @@
     else revealObserver.observe(element);
   });
 
-  window.addEventListener('scroll', requestRender, { passive: true });
-  window.addEventListener('resize', requestRender);
-  reducedMotion.addEventListener?.('change', () => {
-    if (motionIsReduced()) document.querySelectorAll('.ll-p3-reveal').forEach((element) => element.classList.add('is-visible'));
-    requestRender();
-  });
+  if ('ResizeObserver' in window) {
+    const resizeObserver = new ResizeObserver(() => {
+      metricsDirty = true;
+      motion.invalidate();
+    });
+    [processSection, about, contact].filter(Boolean).forEach((element) => resizeObserver.observe(element));
+  }
 
-  render();
+  motion.observeActivity([processSection, about, contact]);
+  motion.subscribe(render);
   root.classList.add('ll-pass3-ready');
 })();

@@ -3,9 +3,8 @@
 
   const root = document.documentElement;
   const body = document.body;
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const forceReducedMotion = new URLSearchParams(window.location.search).get('motion') === 'reduce';
-  const motionIsReduced = () => forceReducedMotion || reduceMotion.matches;
+  const motion = window.LandLabMotion;
+  const motionIsReduced = () => motion.isReduced();
   const intro = document.getElementById('ll-intro');
   const introCount = document.getElementById('ll-intro-count');
   const nav = document.getElementById('ll-nav');
@@ -71,25 +70,53 @@
     if (event.key === 'Escape') setMenu(false);
   });
 
-  let frameRequested = false;
+  let metrics = { hero: null, approach: null };
+  let navScrolled = null;
+  let reducedState = null;
 
-  function renderScroll() {
-    frameRequested = false;
-    const scrollY = window.scrollY;
-    const viewport = window.innerHeight;
+  function bounds(element) {
+    if (!element) return null;
+    const rect = element.getBoundingClientRect();
+    return { top: rect.top + window.scrollY, height: element.offsetHeight };
+  }
 
-    if (nav) nav.dataset.scrolled = String(scrollY > 36);
+  function measure() {
+    metrics = { hero: bounds(hero), approach: bounds(approach) };
+  }
 
-    if (!motionIsReduced() && hero) {
-      const range = Math.max(1, hero.offsetHeight - viewport);
-      const progress = clamp((scrollY - hero.offsetTop) / range);
+  function isNear(metric, scrollY, viewport) {
+    return metric && scrollY + viewport * 1.5 >= metric.top && scrollY - viewport * 0.5 <= metric.top + metric.height;
+  }
+
+  function renderScroll(frame) {
+    if (frame.measure) measure();
+
+    const scrolled = frame.scrollY > 36;
+    if (nav && scrolled !== navScrolled) {
+      navScrolled = scrolled;
+      nav.dataset.scrolled = String(scrolled);
+    }
+
+    if (frame.reduced !== reducedState) {
+      reducedState = frame.reduced;
+      if (frame.reduced) {
+        root.style.setProperty('--hero-progress', '0');
+        root.style.setProperty('--approach-progress', '1');
+      }
+    }
+
+    if (frame.reduced) return;
+
+    if (isNear(metrics.hero, frame.scrollY, frame.viewportHeight)) {
+      const range = Math.max(1, metrics.hero.height - frame.viewportHeight);
+      const progress = clamp((frame.scrollY - metrics.hero.top) / range);
       root.style.setProperty('--hero-progress', progress.toFixed(4));
     }
 
-    if (!motionIsReduced() && approach) {
-      const range = Math.max(1, approach.offsetHeight - viewport);
-      const entryLead = viewport * 0.7;
-      const progress = clamp((scrollY - approach.offsetTop + entryLead) / (range + entryLead));
+    if (isNear(metrics.approach, frame.scrollY, frame.viewportHeight)) {
+      const range = Math.max(1, metrics.approach.height - frame.viewportHeight);
+      const entryLead = frame.viewportHeight * 0.7;
+      const progress = clamp((frame.scrollY - metrics.approach.top + entryLead) / (range + entryLead));
       root.style.setProperty('--approach-progress', progress.toFixed(4));
       approach.style.setProperty('--approach-inset-y', `${((1 - progress) * 8).toFixed(3)}%`);
       approach.style.setProperty('--approach-inset-x', `${((1 - progress) * 3).toFixed(3)}%`);
@@ -101,34 +128,27 @@
     }
   }
 
-  function requestRender() {
-    if (!frameRequested) {
-      frameRequested = true;
-      requestAnimationFrame(renderScroll);
-    }
-  }
-
-  window.addEventListener('scroll', requestRender, { passive: true });
-  window.addEventListener('resize', requestRender, { passive: true });
-  reduceMotion.addEventListener('change', () => {
-    root.dataset.motion = motionIsReduced() ? 'reduced' : 'full';
-    if (motionIsReduced()) {
-      root.style.setProperty('--hero-progress', '0');
-      root.style.setProperty('--approach-progress', '1');
-    }
-    requestRender();
-  });
-
   document.querySelectorAll('[data-magnetic]').forEach((button) => {
+    let pointerFrame = 0;
+    let pointerEvent = null;
+
     button.addEventListener('pointermove', (event) => {
       if (motionIsReduced() || event.pointerType === 'touch') return;
-      const rect = button.getBoundingClientRect();
-      const x = (event.clientX - rect.left - rect.width / 2) * 0.12;
-      const y = (event.clientY - rect.top - rect.height / 2) * 0.14;
-      button.style.setProperty('--magnet-x', `${x.toFixed(1)}px`);
-      button.style.setProperty('--magnet-y', `${y.toFixed(1)}px`);
+      pointerEvent = { x: event.clientX, y: event.clientY };
+      if (pointerFrame) return;
+
+      pointerFrame = requestAnimationFrame(() => {
+        pointerFrame = 0;
+        const rect = button.getBoundingClientRect();
+        const x = (pointerEvent.x - rect.left - rect.width / 2) * 0.12;
+        const y = (pointerEvent.y - rect.top - rect.height / 2) * 0.14;
+        button.style.setProperty('--magnet-x', `${x.toFixed(1)}px`);
+        button.style.setProperty('--magnet-y', `${y.toFixed(1)}px`);
+      });
     });
     button.addEventListener('pointerleave', () => {
+      if (pointerFrame) cancelAnimationFrame(pointerFrame);
+      pointerFrame = 0;
       button.style.setProperty('--magnet-x', '0px');
       button.style.setProperty('--magnet-y', '0px');
     });
@@ -141,7 +161,7 @@
     );
   });
 
-  root.dataset.motion = motionIsReduced() ? 'reduced' : 'full';
+  motion.observeActivity([hero, approach]);
+  motion.subscribe(renderScroll);
   playIntro();
-  requestRender();
 })();

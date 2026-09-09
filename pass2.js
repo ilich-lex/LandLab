@@ -2,9 +2,8 @@
   'use strict';
 
   const root = document.documentElement;
-  const reducedQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const forceReduced = new URLSearchParams(window.location.search).get('motion') === 'reduce';
-  const reduceMotion = () => forceReduced || reducedQuery.matches;
+  const motion = window.LandLabMotion;
+  const reduceMotion = () => motion.isReduced();
   const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
   const map = (value, start, end) => clamp((value - start) / Math.max(0.0001, end - start));
 
@@ -18,7 +17,6 @@
 
   let viewportHeight = window.innerHeight;
   let viewportWidth = window.innerWidth;
-  let framePending = false;
   let metricsDirty = true;
   let metrics = {
     services: null,
@@ -50,6 +48,12 @@
     metricsDirty = false;
   }
 
+  function isNear(metric, scrollY, margin = 0.75) {
+    if (!metric) return false;
+    const buffer = viewportHeight * margin;
+    return scrollY + viewportHeight + buffer >= metric.top && scrollY - buffer <= metric.top + metric.height;
+  }
+
   function setServiceState(scrollY) {
     if (!services || !metrics.services) return;
 
@@ -61,7 +65,7 @@
         const itemMetric = metrics.serviceItems[index];
         const reveal = reduceMotion() || !itemMetric
           ? 1
-          : map(scrollY + viewportHeight * 0.9, itemMetric.top, itemMetric.top + viewportHeight * 0.55);
+          : map(scrollY + viewportHeight * 0.88, itemMetric.top, itemMetric.top + viewportHeight * 0.42);
         item.style.setProperty('--mobile-reveal', reveal.toFixed(4));
         item.style.setProperty('--service-shift', '0%');
         item.style.setProperty('--service-opacity', '1');
@@ -108,25 +112,28 @@
     workIntro.style.setProperty('--work-intro-progress', progress.toFixed(4));
   }
 
-  function setCaseStates(scrollY) {
-    cases.forEach((item, index) => {
-      const itemMetric = metrics.cases[index];
-      if (!itemMetric) return;
+  function setCaseState(item, itemMetric, scrollY) {
+    if (!itemMetric) return;
 
-      if (reduceMotion()) {
-        item.style.setProperty('--case-progress', '0.5');
-        item.style.setProperty('--case-reveal', '1');
-        return;
-      }
+    if (reduceMotion()) {
+      item.style.setProperty('--case-progress', '0.5');
+      item.style.setProperty('--case-reveal', '1');
+      return;
+    }
 
+    if (viewportWidth > 600) {
       const progress = clamp(
         (scrollY - itemMetric.top + viewportHeight * 0.8) /
         Math.max(viewportHeight, itemMetric.height + viewportHeight * 0.1)
       );
-      const reveal = map(scrollY + viewportHeight * 0.92, itemMetric.top, itemMetric.top + viewportHeight * 0.62);
       item.style.setProperty('--case-progress', progress.toFixed(4));
-      item.style.setProperty('--case-reveal', reveal.toFixed(4));
-    });
+    } else {
+      item.style.setProperty('--case-progress', '0.5');
+    }
+
+    const revealEnd = viewportWidth <= 600 ? 0.46 : 0.62;
+    const reveal = map(scrollY + viewportHeight * 0.92, itemMetric.top, itemMetric.top + viewportHeight * revealEnd);
+    item.style.setProperty('--case-reveal', reveal.toFixed(4));
   }
 
   function setOutroState(scrollY) {
@@ -137,38 +144,29 @@
     workOutro.style.setProperty('--work-outro-inset', `${((1 - progress) * 15).toFixed(3)}%`);
   }
 
-  function render() {
-    framePending = false;
-    if (metricsDirty) measure();
-    const scrollY = window.scrollY;
-    setServiceState(scrollY);
-    setWorkIntroState(scrollY);
-    setCaseStates(scrollY);
-    setOutroState(scrollY);
-  }
+  function render(frame) {
+    viewportHeight = frame.viewportHeight;
+    viewportWidth = frame.viewportWidth;
+    if (frame.measure || metricsDirty) measure();
 
-  function requestRender() {
-    if (framePending) return;
-    framePending = true;
-    requestAnimationFrame(render);
+    if (isNear(metrics.services, frame.scrollY)) setServiceState(frame.scrollY);
+    if (isNear(metrics.workIntro, frame.scrollY)) setWorkIntroState(frame.scrollY);
+    cases.forEach((item, index) => {
+      if (isNear(metrics.cases[index], frame.scrollY, 0.45)) {
+        setCaseState(item, metrics.cases[index], frame.scrollY);
+      }
+    });
+    if (isNear(metrics.workOutro, frame.scrollY)) setOutroState(frame.scrollY);
   }
-
-  function refreshMetrics() {
-    metricsDirty = true;
-    requestRender();
-  }
-
-  window.addEventListener('scroll', requestRender, { passive: true });
-  window.addEventListener('resize', refreshMetrics, { passive: true });
-  window.addEventListener('load', refreshMetrics, { once: true });
-  reducedQuery.addEventListener('change', refreshMetrics);
 
   if ('ResizeObserver' in window) {
     const observer = new ResizeObserver(() => {
-      if (!framePending) refreshMetrics();
+      metricsDirty = true;
+      motion.invalidate();
     });
     [services, workIntro, workOutro].filter(Boolean).forEach((element) => observer.observe(element));
   }
 
-  refreshMetrics();
+  motion.observeActivity([services, workIntro, ...cases, workOutro]);
+  motion.subscribe(render);
 })();

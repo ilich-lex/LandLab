@@ -67,7 +67,7 @@
 
     .proj-list { list-style:none; padding:0; display:flex; flex-direction:column; gap:8px; }
     .proj-list li { display:flex; gap:9px; font-size:0.95rem; color:var(--mid); line-height:1.5; }
-    .proj-list li::before { content:'→'; color:var(--green); flex-shrink:0; }
+    .proj-list li::before { content:''; width:0.42rem; height:0.42rem; border-top:1.5px solid currentColor; border-right:1.5px solid currentColor; color:var(--green); flex-shrink:0; transform:rotate(45deg); }
     .proj-link { display:inline-flex; align-items:center; gap:6px; font-size:0.95rem; font-weight:600; color:var(--green); text-decoration:none; border-bottom:1px solid var(--green-border); padding-bottom:1px; transition:border-color 0.2s,color 0.2s; }
     .proj-link:hover { border-color:var(--green); }
 
@@ -200,8 +200,17 @@
   <link rel="stylesheet" href="pass2.css" />
   <link rel="stylesheet" href="pass3.css" />
   <link rel="stylesheet" href="pass4a.css" />
+  <link rel="stylesheet" href="performance-polish.css" />
 </head>
 <body class="is-intro-active">
+
+<svg class="ll-icon-sprite" width="0" height="0" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="ll-icon-arrow" viewBox="0 0 16 16">
+      <path d="M2.5 8h10M8.5 4l4 4-4 4"/>
+    </symbol>
+  </defs>
+</svg>
 
 <a class="ll-skip-link" href="#main-content">Перейти к содержанию</a>
 
@@ -224,7 +233,7 @@
     <a href="#approach">Подход</a>
     <a href="#contact">Контакты</a>
   </nav>
-  <a class="ll-nav__cta" href="#contact" data-magnetic>Обсудить задачу <span aria-hidden="true">↗</span></a>
+  <a class="ll-nav__cta" href="#contact" data-magnetic>Обсудить задачу <svg class="ll-icon ll-icon--ne" aria-hidden="true" focusable="false"><use href="#ll-icon-arrow"/></svg></a>
   <button class="ll-nav__toggle" id="ll-menu-toggle" type="button" aria-label="Открыть меню" aria-controls="ll-menu" aria-expanded="false"><span></span></button>
 </header>
 
@@ -251,7 +260,7 @@
         <h1 class="ll-hero__title" id="ll-hero-title"><span>Сайты, автоматизация и веб-системы для бизнеса</span></h1>
         <p class="ll-hero__lead">Сначала разбираемся в задаче. Затем проектируем понятное решение, которое помогает продавать, экономить время или упрощать работу.</p>
         <div class="ll-hero__actions">
-          <a class="ll-hero__cta" href="#contact" data-magnetic>Обсудить задачу <span aria-hidden="true">↗</span></a>
+          <a class="ll-hero__cta" href="#contact" data-magnetic>Обсудить задачу <svg class="ll-icon ll-icon--ne" aria-hidden="true" focusable="false"><use href="#ll-icon-arrow"/></svg></a>
           <a class="ll-hero__work-link" href="#work">Посмотреть работы</a>
         </div>
       </div>
@@ -490,7 +499,7 @@
 
       <footer class="ll-services__footer">
         <p>Финальную стоимость фиксируем после обсуждения задачи и объёма работы.</p>
-        <a href="#contact" data-magnetic>Обсудить задачу <span aria-hidden="true">↗</span></a>
+        <a href="#contact" data-magnetic>Обсудить задачу <svg class="ll-icon ll-icon--ne" aria-hidden="true" focusable="false"><use href="#ll-icon-arrow"/></svg></a>
       </footer>
     </div>
   </div>
@@ -520,8 +529,8 @@
         <p class="ll-case__category">Юридические услуги · лендинг</p>
       </header>
       <a class="ll-case__visual" href="https://koloskowa.ru" target="_blank" rel="noopener noreferrer" aria-label="Открыть сайт Надежды Яковлевой">
-        <img src="portfolio/koloskowa.jpg" alt="Главная страница сайта Надежды Яковлевой" width="1280" height="607" loading="eager" decoding="async">
-        <span class="ll-case__visit">Открыть сайт <span aria-hidden="true">↗</span></span>
+        <img src="portfolio/koloskowa.jpg" alt="Главная страница сайта Надежды Яковлевой" width="1280" height="607" loading="lazy" decoding="async" fetchpriority="low">
+        <span class="ll-case__visit">Открыть сайт <svg class="ll-icon ll-icon--ne" aria-hidden="true" focusable="false"><use href="#ll-icon-arrow"/></svg></span>
       </a>
       <div class="ll-case__copy">
         <div><h4>Задача</h4><p>Собрать услуги, опыт, стоимость и понятный путь до обращения специалиста по банкротству физических лиц в одной точке доверия.</p></div>
@@ -538,8 +547,8 @@
         <p class="ll-case__category">Косметология · лендинг</p>
       </header>
       <a class="ll-case__visual" href="https://farforovaya.ru" target="_blank" rel="noopener noreferrer" aria-label="Открыть сайт Фарфоровая">
-        <img src="portfolio/farforovaya.jpg" alt="Главная страница сайта Фарфоровая" width="1280" height="605" loading="lazy" decoding="async">
-        <span class="ll-case__visit">Открыть сайт <span aria-hidden="true">↗</span></span>
+        <img src="portfolio/farforovaya.jpg" alt="Главная страница сайта Фарфоровая" width="1280" height="605" loading="lazy" decoding="async" fetchpriority="low">
+        <span class="ll-case__visit">Открыть сайт <svg class="ll-icon ll-icon--ne" aria-hidden="true" focusable="false"><use href="#ll-icon-arrow"/></svg></span>
       </a>
       <div class="ll-case__copy">
         <div><h4>Задача</h4><p>Представить врача-косметолога, показать услуги и довести заинтересованного человека до записи на приём.</p></div>
@@ -556,8 +565,8 @@
         <p class="ll-case__category">Юридические услуги · сайт для бизнеса</p>
       </header>
       <a class="ll-case__visual" href="https://golosovsv.ru" target="_blank" rel="noopener noreferrer" aria-label="Открыть сайт Станислава Голосова">
-        <img src="portfolio/golosov.jpg" alt="Главная страница сайта Станислава Голосова" width="1280" height="605" loading="lazy" decoding="async">
-        <span class="ll-case__visit">Открыть сайт <span aria-hidden="true">↗</span></span>
+        <img src="portfolio/golosov.jpg" alt="Главная страница сайта Станислава Голосова" width="1280" height="605" loading="lazy" decoding="async" fetchpriority="low">
+        <span class="ll-case__visit">Открыть сайт <svg class="ll-icon ll-icon--ne" aria-hidden="true" focusable="false"><use href="#ll-icon-arrow"/></svg></span>
       </a>
       <div class="ll-case__copy">
         <div><h4>Задача</h4><p>Создать полноценный сайт практикующего юриста с реальными делами, услугами, ценами и понятными путями для обращения.</p></div>
@@ -574,8 +583,8 @@
         <p class="ll-case__category">Собственный образовательный продукт</p>
       </header>
       <a class="ll-case__visual" href="https://lexoraeng.ru" target="_blank" rel="noopener noreferrer" aria-label="Открыть сайт Lexora">
-        <img src="portfolio/lexora.jpg" alt="Главная страница образовательного продукта Lexora" width="1280" height="607" loading="lazy" decoding="async">
-        <span class="ll-case__visit">Открыть сайт <span aria-hidden="true">↗</span></span>
+        <img src="portfolio/lexora.jpg" alt="Главная страница образовательного продукта Lexora" width="1280" height="607" loading="lazy" decoding="async" fetchpriority="low">
+        <span class="ll-case__visit">Открыть сайт <svg class="ll-icon ll-icon--ne" aria-hidden="true" focusable="false"><use href="#ll-icon-arrow"/></svg></span>
       </a>
       <div class="ll-case__copy">
         <div><h4>Задача</h4><p>Разработать образовательный Telegram-продукт для изучения английского — от механики до реализации и лендинга.</p></div>
@@ -588,7 +597,7 @@
     <div class="ll-work-outro__surface">
       <p class="ll-kicker"><span>04</span> Дальше</p>
       <p>Как строится работа<br>над проектом</p>
-      <a href="#process">Посмотреть этапы <span aria-hidden="true">↓</span></a>
+      <a href="#process">Посмотреть этапы <svg class="ll-icon ll-icon--down" aria-hidden="true" focusable="false"><use href="#ll-icon-arrow"/></svg></a>
     </div>
   </div>
 </section>
@@ -711,7 +720,7 @@
   <div class="wrap">
     <div class="rv" style="display:flex;align-items:flex-end;justify-content:space-between;gap:20px;padding-bottom:24px;border-bottom:1px solid var(--border);margin-bottom:72px;flex-wrap:wrap;">
       <div><span class="sec-label">02 — Проекты</span><h2 class="sec-h">Реальные проекты</h2></div>
-      <a href="#contact" style="font-size:0.95rem;font-weight:500;color:var(--green);text-decoration:none;white-space:nowrap;padding-bottom:2px;border-bottom:1px solid var(--green-border);">Обсудить свой →</a>
+      <a href="#contact" style="font-size:0.95rem;font-weight:500;color:var(--green);text-decoration:none;white-space:nowrap;padding-bottom:2px;border-bottom:1px solid var(--green-border);">Обсудить свой <svg class="ll-icon" aria-hidden="true" focusable="false"><use href="#ll-icon-arrow"/></svg></a>
     </div>
 
     <article id="legacy-proj-1" style="display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center;margin-bottom:80px;">
@@ -877,7 +886,7 @@
     <div class="ll-about__story ll-p3-reveal">
       <p>Работаю с клиентами напрямую и лично отвечаю за постановку задачи, предлагаемое решение и результат проекта.</p>
       <p>LandLab делает коммерческие сайты, системы заявок, автоматизацию в Telegram и веб-инструменты для бизнеса.</p>
-      <a class="ll-text-link" href="https://t.me/ildanildarovich" target="_blank" rel="noopener noreferrer">Написать в Telegram <span aria-hidden="true">↗</span></a>
+      <a class="ll-text-link" href="https://t.me/ildanildarovich" target="_blank" rel="noopener noreferrer">Написать в Telegram <svg class="ll-icon ll-icon--ne" aria-hidden="true" focusable="false"><use href="#ll-icon-arrow"/></svg></a>
     </div>
 
     <div class="ll-about__facts">
@@ -912,8 +921,8 @@
         <p>Коротко расскажите, чем занимается бизнес и что нужно сделать. Предложу подходящий формат работы.</p>
         <p>Если обычный сайт здесь не лучший вариант — так и скажу.</p>
         <div class="ll-contact__links">
-          <a href="https://t.me/ildanildarovich" target="_blank" rel="noopener noreferrer">Telegram: @ildanildarovich <span aria-hidden="true">↗</span></a>
-          <a href="mailto:itukhvatshin@internet.ru">itukhvatshin@internet.ru <span aria-hidden="true">↗</span></a>
+          <a href="https://t.me/ildanildarovich" target="_blank" rel="noopener noreferrer">Telegram: @ildanildarovich <svg class="ll-icon ll-icon--ne" aria-hidden="true" focusable="false"><use href="#ll-icon-arrow"/></svg></a>
+          <a href="mailto:itukhvatshin@internet.ru">itukhvatshin@internet.ru <svg class="ll-icon ll-icon--ne" aria-hidden="true" focusable="false"><use href="#ll-icon-arrow"/></svg></a>
         </div>
         <p class="ll-contact__legal">Работа официально через ИП · оплата 50/50</p>
       </div>
@@ -929,7 +938,7 @@
             <div class="form-field"><label class="form-label" for="cf-business">Чем занимаетесь?</label><input class="form-input" type="text" id="cf-business" name="business" placeholder="Сфера, компания или проект"/></div>
             <div class="form-field"><label class="form-label" for="cf-task">Что хотите улучшить или сделать?</label><textarea class="form-textarea" id="cf-task" name="task" placeholder="Расскажите кратко — что сейчас есть и что хотите получить" required></textarea></div>
             <div class="form-field"><label class="form-label" for="cf-contact">Как с вами связаться?</label><input class="form-input" type="text" id="cf-contact" name="contact" placeholder="Telegram, email или телефон" required/></div>
-            <button type="submit" class="ll-contact__submit" id="cf-submit">Обсудить задачу <span aria-hidden="true">↗</span></button>
+            <button type="submit" class="ll-contact__submit" id="cf-submit">Обсудить задачу <svg class="ll-icon ll-icon--ne" aria-hidden="true" focusable="false"><use href="#ll-icon-arrow"/></svg></button>
             <p class="ll-contact__note">Обычно отвечаю в течение рабочего дня</p>
           </form>
         </div>
@@ -952,7 +961,7 @@
   <div class="ll-footer__top">
     <a class="ll-footer__brand" href="#top" aria-label="LandLab — к началу страницы">LandLab</a>
     <p>Сайты, автоматизация и веб-системы для бизнеса.</p>
-    <a class="ll-footer__up" href="#top">Наверх <span aria-hidden="true">↑</span></a>
+    <a class="ll-footer__up" href="#top">Наверх <svg class="ll-icon ll-icon--up" aria-hidden="true" focusable="false"><use href="#ll-icon-arrow"/></svg></a>
   </div>
 
   <div class="ll-footer__grid" id="footer-grid">
@@ -1127,7 +1136,7 @@
         formSucc.classList.add('show');
       }).catch(function() {
         submitting = false;
-        submitBtn.innerHTML = 'Обсудить задачу <span aria-hidden="true">↗</span>';
+        submitBtn.innerHTML = 'Обсудить задачу <svg class="ll-icon ll-icon--ne" aria-hidden="true" focusable="false"><use href="#ll-icon-arrow"/></svg>';
         submitBtn.disabled = false;
         alert('Что-то пошло не так. Напишите напрямую: @ildanildarovich');
       });
@@ -1141,6 +1150,7 @@
   }
 </script>
 
+<script src="motion-core.js"></script>
 <script src="pass1.js"></script>
 <script src="pass2.js"></script>
 <script src="pass3.js"></script>

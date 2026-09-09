@@ -1,0 +1,185 @@
+/* LandLab production polish: deterministic icons and lighter compositing. */
+
+.ll-icon-sprite {
+  position: absolute;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.ll-icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  flex: 0 0 auto;
+  overflow: visible;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vertical-align: -0.12em;
+  transform-origin: center;
+  transition: transform var(--ll-scene-fast, 240ms) var(--ll-ease-out, ease);
+}
+
+.ll-icon--ne { transform: rotate(-45deg); }
+.ll-icon--down { transform: rotate(90deg); }
+.ll-icon--up { transform: rotate(-90deg); }
+
+a:hover .ll-icon--ne,
+button:hover .ll-icon--ne { transform: translate3d(0.14em, -0.14em, 0) rotate(-45deg); }
+a:hover .ll-icon--down { transform: translate3d(0, 0.14em, 0) rotate(90deg); }
+a:hover .ll-icon--up { transform: translate3d(0, -0.14em, 0) rotate(-90deg); }
+
+/* The contact glow is static; only the fine outline moves on the compositor. */
+.ll-contact__surface {
+  background:
+    radial-gradient(circle at 43% 36%, rgba(67, 157, 116, 0.24), transparent 31%),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.035), transparent 42%),
+    var(--ll-night);
+}
+
+.ll-case__visual { contain: paint; }
+
+/* Release permanent layer promotion outside the current scene. */
+.ll-hero__word-line > span,
+.ll-mask-line > span,
+.ll-services__surface,
+.ll-services__surface::before,
+.ll-services__surface::after,
+.ll-service,
+.ll-service__title-wrap,
+.ll-service__details,
+.ll-work-intro__sticky::before,
+.ll-work-intro__words span,
+.ll-case__title,
+.ll-case__visual,
+.ll-case__visual img,
+.ll-case__copy,
+.ll-work-outro__surface,
+.ll-process__surface::before,
+.ll-process-step,
+.ll-process__rail-fill,
+.ll-about__word,
+.ll-contact__headline-line > span,
+.ll-contact__surface::after {
+  will-change: auto;
+}
+
+.ll-hero.is-motion-active .ll-hero__word-line > span,
+.ll-hero.is-motion-active + .ll-approach .ll-mask-line > span,
+.ll-approach.is-motion-active .ll-mask-line > span,
+.ll-services.is-motion-active .ll-services__surface,
+.ll-services.is-motion-active .ll-services__surface::before,
+.ll-services.is-motion-active .ll-services__surface::after,
+.ll-services.is-motion-active .ll-service,
+.ll-work-intro.is-motion-active .ll-work-intro__sticky::before,
+.ll-work-intro.is-motion-active .ll-work-intro__words span,
+.ll-case.is-motion-active .ll-case__title,
+.ll-case.is-motion-active .ll-case__visual,
+.ll-case.is-motion-active .ll-case__visual img,
+.ll-case.is-motion-active .ll-case__copy,
+.ll-work-outro.is-motion-active .ll-work-outro__surface,
+.ll-process.is-motion-active .ll-process__surface::before,
+.ll-process.is-motion-active .ll-process-step,
+.ll-process.is-motion-active .ll-process__rail-fill,
+.ll-about.is-motion-active .ll-about__word,
+.ll-contact.is-motion-active .ll-contact__headline-line > span,
+.ll-contact.is-motion-active .ll-contact__surface::after {
+  will-change: transform, opacity;
+}
+
+.ll-services.is-motion-active .ll-services__surface,
+.ll-work-outro.is-motion-active .ll-work-outro__surface {
+  will-change: clip-path;
+}
+
+.ll-work-intro.is-motion-active .ll-work-intro__sticky::before {
+  will-change: clip-path, opacity;
+}
+
+.ll-case.is-motion-active .ll-case__visual {
+  will-change: clip-path, transform;
+}
+
+@media (max-width: 980px) {
+  .ll-nav {
+    background: rgba(16, 23, 19, 0.94);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  .ll-nav[data-scrolled='true'] {
+    background: rgba(250, 249, 247, 0.97);
+  }
+}
+
+@media (max-width: 600px) {
+  .ll-hero__wash {
+    filter: none;
+    transform: translate3d(calc((var(--hero-progress) - 0.5) * 5vw), calc(var(--hero-progress) * 3vh), 0)
+      scale(calc(0.84 + var(--hero-progress) * 0.28));
+  }
+
+  .ll-hero__grid {
+    transform: translateY(calc(var(--hero-progress) * -1.75rem));
+  }
+
+  .ll-service__title-wrap {
+    clip-path: none;
+    transform: translate3d(calc((1 - var(--mobile-reveal, 1)) * 1.4rem), 0, 0);
+  }
+
+  .ll-service__details {
+    transform: translate3d(0, calc((1 - var(--mobile-reveal, 1)) * 1.2rem), 0);
+  }
+
+  .ll-work-intro { height: 122svh; }
+
+  .ll-work-intro__sticky::before {
+    clip-path: none;
+    opacity: calc(0.1 + var(--work-intro-progress) * 0.25);
+    transform: scaleY(calc(0.82 + var(--work-intro-progress) * 0.18));
+    transform-origin: center;
+  }
+
+  .ll-case__visual {
+    clip-path: none;
+    opacity: calc(0.76 + var(--case-reveal) * 0.24);
+    transform: translate3d(0, calc((1 - var(--case-reveal)) * 1.1rem), 0);
+  }
+
+  .ll-case__visual img {
+    filter: none;
+    transform: scale(calc(1.035 - var(--case-reveal) * 0.035));
+  }
+
+  .ll-case__title {
+    transform: translate3d(calc((1 - var(--case-reveal)) * 1.4rem), 0, 0);
+  }
+
+  .ll-contact__surface::after {
+    transform: translate3d(calc(var(--contact-progress) * -1.5vw), calc(var(--contact-progress) * 1vh), 0)
+      scale(calc(0.96 + var(--contact-progress) * 0.04));
+  }
+
+  .ll-services.is-motion-active .ll-services__surface,
+  .ll-work-intro.is-motion-active .ll-work-intro__sticky::before,
+  .ll-case.is-motion-active .ll-case__visual,
+  .ll-work-outro.is-motion-active .ll-work-outro__surface {
+    will-change: transform, opacity;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ll-icon { transition: none; }
+  .is-motion-active * { will-change: auto !important; }
+}
+
+html[data-motion='reduced'] .ll-icon { transition: none; }
+html[data-motion='reduced'] .is-motion-active * { will-change: auto !important; }
+html[data-motion='reduced'] .ll-services__surface::before,
+html[data-motion='reduced'] .ll-services__surface::after,
+html[data-motion='reduced'] .ll-work-intro__sticky::before,
+html[data-motion='reduced'] .ll-process__surface::before,
+html[data-motion='reduced'] .ll-contact__surface::after { will-change: auto !important; }
