@@ -201,6 +201,7 @@
   <link rel="stylesheet" href="pass3.css" />
   <link rel="stylesheet" href="pass4a.css" />
   <link rel="stylesheet" href="performance-polish.css" />
+  <link rel="stylesheet" href="privacy.css" />
 </head>
 <body class="is-intro-active">
 
@@ -933,11 +934,16 @@
           <span>Ответ в течение рабочего дня</span>
         </div>
         <div id="form-fields">
-          <form id="contact-form" novalidate>
-            <div class="form-field"><label class="form-label" for="cf-name">Имя</label><input class="form-input" type="text" id="cf-name" name="name" placeholder="Как вас зовут?" autocomplete="name" required/></div>
-            <div class="form-field"><label class="form-label" for="cf-business">Чем занимаетесь?</label><input class="form-input" type="text" id="cf-business" name="business" placeholder="Сфера, компания или проект"/></div>
-            <div class="form-field"><label class="form-label" for="cf-task">Что хотите улучшить или сделать?</label><textarea class="form-textarea" id="cf-task" name="task" placeholder="Расскажите кратко — что сейчас есть и что хотите получить" required></textarea></div>
-            <div class="form-field"><label class="form-label" for="cf-contact">Как с вами связаться?</label><input class="form-input" type="text" id="cf-contact" name="contact" placeholder="Telegram, email или телефон" required/></div>
+          <form id="contact-form" class="ym-disable-submit" novalidate>
+            <div class="form-field"><label class="form-label" for="cf-name">Имя</label><input class="form-input ym-disable-keys" type="text" id="cf-name" name="name" placeholder="Как вас зовут?" autocomplete="name" required/></div>
+            <div class="form-field"><label class="form-label" for="cf-business">Чем занимаетесь?</label><input class="form-input ym-disable-keys" type="text" id="cf-business" name="business" placeholder="Сфера, компания или проект"/></div>
+            <div class="form-field"><label class="form-label" for="cf-task">Что хотите улучшить или сделать?</label><textarea class="form-textarea ym-disable-keys" id="cf-task" name="task" placeholder="Расскажите кратко — что сейчас есть и что хотите получить" required></textarea></div>
+            <div class="form-field"><label class="form-label" for="cf-contact">Как с вами связаться?</label><input class="form-input ym-disable-keys" type="text" id="cf-contact" name="contact" placeholder="Telegram, email или телефон" required/></div>
+            <label class="ll-form-consent" for="cf-personal-data-consent">
+              <input class="ym-disable-keys" type="checkbox" id="cf-personal-data-consent" required aria-describedby="cf-personal-data-error"/>
+              <span>Я даю <a href="/personal-data-consent/" target="_blank" rel="noopener">согласие на обработку персональных данных</a> и ознакомлен с <a href="/privacy/" target="_blank" rel="noopener">Политикой конфиденциальности</a>.</span>
+              <span class="ll-form-consent__error" id="cf-personal-data-error" hidden>Нужно подтвердить согласие перед отправкой.</span>
+            </label>
             <button type="submit" class="ll-contact__submit" id="cf-submit">Обсудить задачу <svg class="ll-icon ll-icon--ne" aria-hidden="true" focusable="false"><use href="#ll-icon-arrow"/></svg></button>
             <p class="ll-contact__note">Обычно отвечаю в течение рабочего дня</p>
           </form>
@@ -983,7 +989,14 @@
   </div>
 
   <div class="ll-footer__bottom">
-    <p>© 2026 LandLab</p>
+    <div>
+      <p>© 2026 LandLab</p>
+      <div class="ll-footer__legal-links">
+        <a href="/privacy/">Политика конфиденциальности</a>
+        <a href="/personal-data-consent/">Согласие на обработку персональных данных</a>
+        <button type="button" class="ll-footer__privacy-button" data-analytics-settings>Настройки аналитики</button>
+      </div>
+    </div>
     <p><span aria-hidden="true"></span> Принимаю новые проекты</p>
   </div>
 </footer>
@@ -1050,6 +1063,8 @@
   var formFields = document.getElementById('form-fields');
   var formSucc   = document.getElementById('form-success');
   var submitBtn  = document.getElementById('cf-submit');
+  var formConsent = document.getElementById('cf-personal-data-consent');
+  var formConsentError = document.getElementById('cf-personal-data-error');
   var submitting = false;
 
   /* Safely escape user input for Telegram HTML parse_mode */
@@ -1096,6 +1111,11 @@
         document.getElementById('cf-contact').style.borderColor = '#c0392b';
         return;
       }
+      if (!formConsent || !formConsent.checked) {
+        if (formConsentError) formConsentError.hidden = false;
+        if (formConsent) formConsent.focus();
+        return;
+      }
 
       /* Reset error borders */
       ['cf-name','cf-contact','cf-task','cf-business'].forEach(function(id) {
@@ -1122,6 +1142,8 @@
         task:              taskVal,
         contact:           contactVal,
         source:            'land-lab.ru',
+        personal_data_consent: true,
+        personal_data_consent_version: '2026-09-22',
         telegram_message:  msg
       };
 
@@ -1131,9 +1153,12 @@
         body: JSON.stringify(payload)
       }).then(function(res) {
         /* Accept any 2xx response as success */
-        if (!res.ok && res.status >= 500) throw new Error('server error');
+        if (!res.ok) throw new Error('server error');
         formFields.classList.add('hidden');
         formSucc.classList.add('show');
+        if (typeof window.landlabTrackGoal === 'function') {
+          window.landlabTrackGoal('lead_form_success');
+        }
       }).catch(function() {
         submitting = false;
         submitBtn.innerHTML = 'Обсудить задачу <svg class="ll-icon ll-icon--ne" aria-hidden="true" focusable="false"><use href="#ll-icon-arrow"/></svg>';
@@ -1147,9 +1172,15 @@
       var el = document.getElementById(id);
       if (el) el.addEventListener('input', function() { this.style.borderColor = ''; });
     });
+    if (formConsent) {
+      formConsent.addEventListener('change', function() {
+        if (formConsent.checked && formConsentError) formConsentError.hidden = true;
+      });
+    }
   }
 </script>
 
+<script src="privacy-consent.js"></script>
 <script src="motion-core.js"></script>
 <script src="pass1.js"></script>
 <script src="pass2.js"></script>
